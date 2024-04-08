@@ -5,7 +5,7 @@ struct LandingView: View {
     // MARK: Stored properties
     
     // The item currently being added
-    @State var newItemDescription: String = ""
+    @State var newItemDescription = ""
     
     // The search text
     @State var searchText = ""
@@ -13,28 +13,28 @@ struct LandingView: View {
     // MARK: Computed properties
     var body: some View {
         NavigationView {
+            
             VStack {
-                List{
-                    ItemView(Item: "Study for Chemistry quiz")
-                    ItemView(Item: "Finish Computer Science assignment")
-                    ItemView(Item: "Go for a run around campus")
-                }
-                .searchable(text: $searchText)
-                HStack {
-                    Text("Enter a to-do item")
-                        .foregroundColor(.gray)
-                    Spacer()
-                    Text("ADD")
-                        .font(.system(size: 12))
-                        .foregroundColor(.blue)
+                List {
                     
+                    ItemView(currentItem: firstItem)
+                    ItemView(currentItem: secondItem)
+                    ItemView(currentItem: thirdItem)
+                    
+                }
+                .searchable (text: $searchText)
+                
+                HStack {
+                    TextField("Enter a to-do item", text: $newItemDescription)
+                    
+                    Button ("ADD" ) {
+                        //Add the new to-do item
+                    }
+                    .font (.caption)
                 }
                 .padding (20)
             }
-            .navigationTitle("To do" )
+            .navigationTitle ("To do" )
         }
     }
 }
-        #Preview {
-            LandingView()
-        }

@@ -1,25 +1,26 @@
 import SwiftUI
 
 struct ItemView: View {
-    let Item: String
     
-    
+    let currentItem: TodoItem
     
     var body: some View {
-        HStack{
-            Image(systemName: "circle")
-                .resizable()
-                .frame(width: 25, height: 25)
-                .padding(.trailing)
-                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-            Text(Item)
-        }
-        .padding(.trailing, 50)
-        
+        Label (
+            title:{
+                Text (currentItem.title)
+            }, icon: {
+                Image(systemName: currentItem.done == true ? "checkmark.circle":
+                        "circle")
+            }
+        )
     }
-    
 }
-        #Preview {
-            ItemView(Item: "Study for Chemistry quiz")
-        }
-
+            
+            
+            
+#Preview {
+    List {
+        ItemView(currentItem: firstItem)
+        ItemView(currentItem: secondItem)
+    }
+}
