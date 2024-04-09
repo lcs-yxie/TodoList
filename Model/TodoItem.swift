@@ -5,12 +5,18 @@
 //  Created by Yukun Xie on 2024/4/8.
 //
 
-import Foundation
+import SwiftData
 
-struct TodoItem: Identifiable {
+@Model
+class TodoItem: Identifiable {
     let id = UUID()
     var title: String
     var done: Bool
+    
+    init(title: String, done: Bool) {
+        self.title = title
+        self.done = done
+    }
 }
 
 let firstItem = TodoItem(title: "Study for Chemisty quiz", done: false)
