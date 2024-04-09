@@ -9,7 +9,6 @@ import SwiftData
 
 @Model
 class TodoItem: Identifiable {
-    let id = UUID()
     var title: String
     var done: Bool
     
