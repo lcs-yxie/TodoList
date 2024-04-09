@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct LandingView: View {
     
@@ -9,6 +10,8 @@ struct LandingView: View {
     
     // The search text
     @State var searchText = ""
+    
+    @Environment(\.modelContext) var modelContext
     
     //The list of to-do items
     @State var todos: [TodoItem] = exampleItems
@@ -75,6 +78,6 @@ struct LandingView: View {
     }
     
 }
-#Preview {
-    LandingView()
-}
+//#Preview {
+//    LandingView()
+//}
