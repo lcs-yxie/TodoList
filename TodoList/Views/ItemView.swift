@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct ItemView: View {
     
@@ -19,10 +20,14 @@ struct ItemView: View {
 }
             
             
-            
-//#Preview {
-//    List {
-//        ItemView(currentItem: Binding.constant(firstItem))
-//        ItemView(currentItem: Binding.constant(secondItem))
-//    }
-//}
+#Preview {
+    
+    let container = TodoItem.preview
+    
+    return List {
+        ItemView(currentItem: TodoItem.someItem)
+        ItemView(currentItem: TodoItem.anotherItem)
+    }
+    .modelContainer(container)
+    
+}
