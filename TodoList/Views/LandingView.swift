@@ -14,7 +14,7 @@ struct LandingView: View {
     @Environment(\.modelContext) var modelContext
     
     //The list of to-do items
-    @State var todos: [TodoItem] = exampleItems
+    @Query var todos: [TodoItem]
     
     // MARK: Computed properties
     var body: some View {
@@ -22,24 +22,15 @@ struct LandingView: View {
             
             VStack {
                 
-                List ($todos){ $todo in
-                    
-                    ItemView(currentItem: $todo)
-                    
-                    // Delete a to-do item
-                        .swipeActions {
-                            Button(
-                                "Delete",
-                                role: .destructive,
-                                action: {
-                                    delete( todo)
-                                }
-                            )
-                        }
-                    
-                    
+                List {
+                    ForEach(todos) { todo in
+                        
+                        ItemView(currentItem: todo)
+
+                    }
+                    .onDelete(perform: removeRows)
                 }
-                .searchable (text: $searchText)
+                .searchable(text: $searchText)
                 
                 HStack {
                     TextField("Enter a to-do item", text: $newItemDescription)
@@ -47,6 +38,7 @@ struct LandingView: View {
                     Button ("ADD" ) {
                         //Add the new to-do item
                         createToDo(withTitle: newItemDescription)
+                        newItemDescription = ""
                     }
                     .font (.caption)
                     .disabled(newItemDescription.isEmpty == true)
@@ -54,6 +46,9 @@ struct LandingView: View {
                 .padding (20)
             }
             .navigationTitle ("To do" )
+            .onAppear {
+                printCommandToOpenDatabaseFile()
+            }
         }
     }
     
@@ -65,19 +60,25 @@ struct LandingView: View {
             title: title,
             done: false
         )
-        // Append to the array
-        todos.append(todo)
+        // Use the model context to insert the new to-do
+        modelContext.insert(todo)
     
     }
     
-    func delete(_ todo: TodoItem) {
-        // Remove the provided to-do item from the array
-        todos.removeAll { currentItem in
-            currentItem.id == todo.id
+    
+    func removeRows(at offsets: IndexSet) {
+        
+        // Accept the offset within the list
+        // (the position of the item being deleted)
+        //
+        // Then ask the model context to delete this
+        // for us, from the 'todos' array
+        for offset in offsets {
+            modelContext.delete(todos[offset])
         }
     }
     
 }
-//#Preview {
-//    LandingView()
-//}
+#Preview {
+    LandingView()
+}
